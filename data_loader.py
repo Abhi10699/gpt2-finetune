@@ -16,8 +16,6 @@ def map_labels_to_emotion(label_int):
   else:
     return 'surprise'
 
-
-
 def generate_input_sequences(df: pd.DataFrame):
 
   """
@@ -41,15 +39,17 @@ def tokenize_inputs(tokenizer, sequences):
   return tokenizer(sequences['texts'], truncation=True, padding='max_length', max_length=512)
 
 
-
 def create_dataset(csv_path: str):
   df = pd.read_csv(csv_path)
   df = df.drop(['Unnamed: 0'], axis=1)
   
+  # for testing purpose only
+  
+
   # map emotions to labels
   df['emotion'] = df['label'].apply(lambda x: map_labels_to_emotion(x))
 
-  train_df = pd.DataFrame({"text": generate_input_sequences(df)})
+  train_df = pd.DataFrame({"texts": generate_input_sequences(df)})
   
   # generate hf dataset
 
