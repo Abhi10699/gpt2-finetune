@@ -39,12 +39,13 @@ def tokenize_inputs(tokenizer, sequences):
   return tokenizer(sequences['texts'], truncation=True, padding='max_length', max_length=512)
 
 
-def create_dataset(csv_path: str):
+def create_dataset(csv_path: str, sample_size=None):
   df = pd.read_csv(csv_path)
   df = df.drop(['Unnamed: 0'], axis=1)
   
+  if sample_size:
   # for testing purpose only
-  
+    df = df.sample(sample_size)
 
   # map emotions to labels
   df['emotion'] = df['label'].apply(lambda x: map_labels_to_emotion(x))
